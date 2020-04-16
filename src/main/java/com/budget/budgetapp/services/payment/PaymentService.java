@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
 
+import com.budget.budgetapp.beans.DateUnpacker;
 import com.budget.budgetapp.beans.PolishYearMonth;
+import com.budget.budgetapp.beans.SearchDate;
 import com.budget.budgetapp.entities.payment.PaymentDoc;
 import com.budget.budgetapp.repos.payment.PaymentRepo;
 
@@ -16,6 +18,9 @@ public class PaymentService {
 
     @Autowired
     private PaymentRepo paymentRepository;
+
+    @Autowired
+    private DateUnpacker dateUnpacker;
 
     public List<PaymentDoc> getAll() {
         return paymentRepository.findAll();
@@ -30,26 +35,28 @@ public class PaymentService {
     }
 
     public List<PaymentDoc> getForYearMonth(PolishYearMonth date) {
-        LocalDate end = date.startOfNextMonth();
-        LocalDate start = date.endOfPreviousMonth();
-        return paymentRepository.findByDateBetween(start, end);
+
+        SearchDate searchDate = dateUnpacker.unpackDate(date);
+        return paymentRepository.findByDateBetween(searchDate.getStartDate(),
+                                                   searchDate.getEndDate());
     }
 
     public List<PaymentDoc> getForYearAndMonthAndCategory(PolishYearMonth date, String category) {
-        LocalDate end = date.startOfNextMonth();
-        LocalDate start = date.endOfPreviousMonth();
-
-        return paymentRepository.findByDateBetweenAndCategory(start, end, category);
+        SearchDate searchDate = dateUnpacker.unpackDate(date);
+        return paymentRepository.findByDateBetweenAndCategory(searchDate.getStartDate(),
+                                                              searchDate.getEndDate(),
+                                                              category);
     }
 
     public List<PaymentDoc> getFullFiltered(PolishYearMonth date,
-                                            String category, 
+                                            String category,
                                             String subcategory) {
 
-            LocalDate end = date.startOfNextMonth();
-            LocalDate start = date.endOfPreviousMonth();
-
-            return paymentRepository.findByDateBetweenAndCategoryAndSubcategory(start, end, category, subcategory);
+            SearchDate searchDate = dateUnpacker.unpackDate(date);
+            return paymentRepository.findByDateBetweenAndCategoryAndSubcategory(searchDate.getStartDate(),
+                                                                                searchDate.getEndDate(),
+                                                                                category,
+                                                                                subcategory);
     }
 
 }
