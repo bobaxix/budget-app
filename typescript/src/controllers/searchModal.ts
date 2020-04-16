@@ -38,25 +38,28 @@ class ModalController {
             })
     }
 
-    renderSubcategories(category: String) {
-
-        let subcategories = this.categoryList.find(el => el.name == category)?.subcategories
+    renderSubcategories(category?: String) {
 
         let subcategorySelector = document.getElementById('subcategory-selector')!
         subcategorySelector.innerHTML =  '<option text="---" value="" selected hidden></option>'
 
-        if (subcategories) {
+        if (category) {
+            let subcategories = this.categoryList.find(el => el.name == category)?.subcategories
 
-            subcategories.forEach(sub => {
-                let opt = document.createElement('option')
-                opt.text = sub
-                opt.value = sub
+            if (subcategories) {
 
-                subcategorySelector?.appendChild(opt)
-            })
+                subcategories.forEach(sub => {
+                    let opt = document.createElement('option')
+                    opt.text = sub
+                    opt.value = sub
+
+                    subcategorySelector?.appendChild(opt)
+                })
+            }
         }
     }
 }
 
 let modalController = new ModalController(new CategoryService())
 modalController.renderCategories()
+modalController.renderSubcategories()

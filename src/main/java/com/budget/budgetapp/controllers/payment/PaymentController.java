@@ -33,8 +33,8 @@ public class PaymentController {
     @GetMapping("/payment")
     public String getPaymentThymeleafView(@RequestParam(required = false) Integer year,
                                           @RequestParam(required = false) Integer month,
-                                          @RequestParam(required = false) String category,
-                                          @RequestParam(required = false) String subcategory,
+                                          @RequestParam(required = false, defaultValue = "") String category,
+                                          @RequestParam(required = false, defaultValue = "") String subcategory,
                                           Model theModel) {
         
         // Need to validate date
@@ -47,12 +47,12 @@ public class PaymentController {
             yearMonth = PolishYearMonth.of(year, month);
         }
 
-        if (category != null && subcategory != null) {
+        if (!category.isEmpty() && !subcategory.isEmpty()) {
             paymentsList = paymentService.getFullFiltered(yearMonth, category, subcategory);
         } else {
-            if (category != null) {
+            if (!category.isEmpty()) {
                 paymentsList = paymentService.getForYearAndMonthAndCategory(yearMonth, category);
-            } else if (subcategory != null) {
+            } else if (!subcategory.isEmpty()) {
                 paymentsList = paymentService.getForYearAndMonthAndSubcategory(yearMonth, subcategory);
             } else {
                 paymentsList = paymentService.getForYearMonth(yearMonth);
