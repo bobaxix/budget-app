@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "lite-server",
-    "build": "webpack --mode production && cp ./public/scripts/*.js /home/bobaxix/VS\\ Code/budget-app/src/main/resources/static/js/"
+    "build": "tsc && webpack --mode production && cp ./public/scripts/*.js /home/bobaxix/VS\\ Code/budget-app/src/main/resources/static/js/"
   },
   "author": "",
   "license": "ISC",
