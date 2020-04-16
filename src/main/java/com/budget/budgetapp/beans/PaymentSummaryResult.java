@@ -1,5 +1,6 @@
 package com.budget.budgetapp.beans;
 
+import java.util.List;
 import java.util.Map;
 
 import lombok.Getter;
@@ -15,6 +16,5 @@ public class PaymentSummaryResult {
     private Map<String, Map<String, Double>> summaryPerSubcategory;
     private Map<String, Double> summaryPerCategory;
     private Double summaryPerPeriod;
-
-
+    private Map<Integer, Double> summaryPerDay;
 }

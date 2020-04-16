@@ -30,20 +30,25 @@ public class SummaryController {
     @GetMapping(value = "/summary") 
     public String getSummaryForMonth(Model theModel) {
         
-        List<PaymentDoc> paymentList = paymentService.getForYearMonth(PolishYearMonth.of(2020, 4));
+        PolishYearMonth date = PolishYearMonth.of(2020, 4);
+
+        List<PaymentDoc> paymentList = paymentService.getForYearMonth(date);
         List<CategoryDoc> categoryList = categoryService.getAllCategories();
 
-       PaymentSummarizer paymentSummarizer = new PaymentSummarizer.Builder(paymentList)
-                                                    .setCategoryList(categoryList)
-                                                    .build();
+        PaymentSummarizer paymentSummarizer = new PaymentSummarizer.Builder(paymentList)
+                                                        .setCategoryList(categoryList)
+                                                        .build();
 
-       paymentSummarizer.doSummaryForSubcategories();
-       paymentSummarizer.doSummaryForCategories();
+        paymentSummarizer.doSummaryForSubcategories();
+        paymentSummarizer.doSummaryForCategories();
+        paymentSummarizer.doSummaryForGlobal();
 
         PaymentSummaryResult paymentSummary = paymentSummarizer.getResult();
 
         theModel.addAttribute("paymentMap", paymentSummary.getSummaryPerSubcategory());
         theModel.addAttribute("paymentSum", paymentSummary.getSummaryPerCategory());
+        theModel.addAttribute("sumOfPaymentsInDate", paymentSummary.getSummaryPerPeriod());
+        theModel.addAttribute("date", date);
 
         return "summary";
 

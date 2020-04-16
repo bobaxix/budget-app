@@ -4,7 +4,10 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Map;
 
+import com.budget.budgetapp.beans.PaymentSummarizer;
+import com.budget.budgetapp.beans.PaymentSummaryResult;
 import com.budget.budgetapp.beans.PolishYearMonth;
 import com.budget.budgetapp.entities.category.CategoryDoc;
 import com.budget.budgetapp.entities.payment.PaymentDoc;
@@ -61,8 +64,14 @@ public class PaymentController {
 
         PaymentProxy paymentProxy = new PaymentProxy(paymentsList);
 
+        PaymentSummarizer paymentSummarizer = new PaymentSummarizer.Builder(paymentsList)
+                                                    .build();
+        paymentSummarizer.doSummaryPerDay();
+        PaymentSummaryResult summary = paymentSummarizer.getResult();
+
         theModel.addAttribute("paymentProxy", paymentProxy);
         theModel.addAttribute("yearMonth", yearMonth);
+        theModel.addAttribute("daySummary", summary.getSummaryPerDay());
 
         return "payments-thymeleaf.html";
     }

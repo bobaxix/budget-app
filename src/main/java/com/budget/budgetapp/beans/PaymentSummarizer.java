@@ -108,6 +108,22 @@ public class PaymentSummarizer {
         summaryResult.setSummaryPerPeriod(globalSummary);
     }
 
+    public void doSummaryPerDay() {
+
+        Map<Integer,Double> summaryPerDay = new HashMap<>();
+
+        paymentList.forEach(el -> {
+
+            int day = el.getDate().getDayOfMonth();
+            
+            summaryPerDay.put(day,
+                el.getAmount() + summaryPerDay.getOrDefault(day, 0.0));
+            
+        });
+
+        summaryResult.setSummaryPerDay(summaryPerDay);
+    }
+
     public PaymentSummaryResult getResult() {
         return summaryResult;
     }

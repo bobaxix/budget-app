@@ -42,4 +42,7 @@ public class PolishYearMonth {
         return yearMonth.plusMonths(1).atDay(1);
     }
 
+    public int getYear() {
+        return yearMonth.getYear();
+    }
 }
