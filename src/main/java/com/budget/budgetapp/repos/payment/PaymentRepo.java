@@ -10,15 +10,21 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PaymentRepo extends MongoRepository<PaymentDoc, String> { 
+public interface PaymentRepo extends MongoRepository<PaymentDoc, String> {
 
     List<PaymentDoc> findByDateBetween(LocalDate start, LocalDate end);
 
-    List<PaymentDoc> findByDateBetweenAndCategory(LocalDate start, LocalDate end, String category);
+    List<PaymentDoc> findByDateBetweenAndCategory(LocalDate start,
+                                                  LocalDate end,
+                                                  String category);
+
+    List<PaymentDoc> findByDateBetweenAndSubcategory(LocalDate start,
+                                                     LocalDate end,
+                                                     String subcategory);
 
     List<PaymentDoc> findByDateBetweenAndCategoryAndSubcategory(LocalDate start,
-                                                                LocalDate end, 
-                                                                String category, 
+                                                                LocalDate end,
+                                                                String category,
                                                                 String subcategory);
 
 }

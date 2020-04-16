@@ -31,7 +31,14 @@ build/
 .vscode/
 
 ### NodeJS ###
-typescript/node_modules
+typescript/node_modules/
 typescript/public/
 typescript/js/
-typescritp/.vscode/
+
+### Static from NodeJS ###
+/src/main/resources/static
+
+### mvn ###
+.mvn/
+mvnw
+mvnw.cmd

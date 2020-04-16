@@ -48,6 +48,12 @@ public class PaymentService {
                                                               category);
     }
 
+    public List<PaymentDoc> getForYearAndMonthAndSubcategory(PolishYearMonth date, String subcategory) {
+        SearchDate searchDate = dateUnpacker.unpackDate(date);
+        return paymentRepository.findByDateBetweenAndSubcategory(searchDate.getStartDate(),
+                                                              searchDate.getEndDate(),
+                                                              subcategory);
+    }
     public List<PaymentDoc> getFullFiltered(PolishYearMonth date,
                                             String category,
                                             String subcategory) {

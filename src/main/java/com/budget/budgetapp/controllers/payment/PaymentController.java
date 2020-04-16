@@ -49,9 +49,14 @@ public class PaymentController {
 
         if (category != null && subcategory != null) {
             paymentsList = paymentService.getFullFiltered(yearMonth, category, subcategory);
-            //paymentsList = paymentService.getForYearAndMonthAndCategory(yearMonth, category);
         } else {
-            paymentsList = paymentService.getForYearMonth(yearMonth);
+            if (category != null) {
+                paymentsList = paymentService.getForYearAndMonthAndCategory(yearMonth, category);
+            } else if (subcategory != null) {
+                paymentsList = paymentService.getForYearAndMonthAndSubcategory(yearMonth, subcategory);
+            } else {
+                paymentsList = paymentService.getForYearMonth(yearMonth);
+            }
         }
 
         PaymentProxy paymentProxy = new PaymentProxy(paymentsList);
