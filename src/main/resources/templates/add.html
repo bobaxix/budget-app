@@ -1,0 +1,54 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <script th:src="@{/js/add-bundle.js}" defer></script>
+    <title>Document</title>
+
+    <style>
+        .big-div {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <span th:insert="payments-thymeleaf::navbar"></span>
+    <div class="container p-5 my-5 big-div">
+        <!-- <form action="http://localhost:8080/payment" class="p-5"> -->
+            <div class="form-group">
+                <label for="category-selector" class="mr-sm-2">Kategoria:</label> 
+                <select class="custom-select mr-sm-2" id="category-selector"></select>
+            </div>
+            <div class="form-group">
+                <label for="subcategory-selector" class="mr-sm-2">Podkategoria:</label>
+                <select id="subcategory-selector" class="custom-select mr-sm-2"></select>
+            </div>
+            <div class="form-group">
+                <label for="amount-input" class="mr-sm-2">Kwota:</label>
+                <input type="text" class="form-control" id="amount-input"></input>
+            </div>
+            <div class="form-group">
+                <label for="date-selector" class="mr-sm-2">Data</label>
+                <div id="date-selector" class="form-row">
+                    <div class="col">
+                        <select id="day-selector" class="custom-select"></select>
+                    </div>
+                    <div class="col">
+                        <select id="month-selector" class="custom-select"></select>
+                    </div>
+                    <div class="col">
+                        <select id="year-selector" class="custom-select"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" id="submit-input">Dodaj</button>
+            </div>
+        <!-- </form> -->
+    </div>
+</body>
+</html>

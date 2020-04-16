@@ -1,0 +1,54 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <title>Document</title>
+
+    <style>
+        .category-label {
+            font-weight: bold;
+            text-align: center;
+            font-size: x-large;
+        }
+
+        .category-summarize {
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+<body>
+    <span th:insert="payments-thymeleaf::navbar"></span>
+    <div class="container p-2">
+        <div th:each="cat : ${paymentMap}" class="pb-2">
+            <div class="category-label badge-secondary mb-1">
+                <label th:text="${cat.key.toUpperCase()}"></label><br>
+            </div>
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <th>Podkategoria</th>
+                    <th>Łączna kwota</th>
+                </thead>
+                <tbody>
+                    <span th:each = "subcat: ${cat.value}">
+                        <tr>
+                            <td th:text="${subcat.key}"></td>
+                            <td th:text="${subcat.value} + ' zł'"></td>
+                        </tr>
+                    </span>
+                    <tr class="table-info category-summarize">
+                        <td>Łączna kwota:</td>
+                        <td th:text="${paymentSum.get(cat.key)} + ' zł'"></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <script th:src="@{/js/delete-bundle.js}" defer></script>
+    <script th:src="@{/js/jquery.min.js}" defer></script>
+    <script th:src="@{/js/bootstrap.bundle.js}" defer></script>
+
+    <script th:src="@{/js/searchModal-bundle.js}" defer></script>
+
+    <style>
+        table {
+            border-collapse: separate;
+            border-spacing:0 15px;
+        }
+        .date-row {
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container p-2" th:fragment="navbar">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{~/payment}">STRONA GŁÓWNA</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{~/payment/add}">DODAJ WPIS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" type="button" data-toggle="modal" data-target="#search-modal">
+                            SZUKAJ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{~/payment/summary}">PODSUMOWANIE</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <span th:insert="modal::search-modal"></span>
+
+    <div class="container p-55">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <th>Id</th>
+                <th>Kategoria</th>
+                <th>Podkategoria</th>
+                <th>Kwota</th>
+                <!-- <th>Data</th> -->
+                <th></th>
+            </thead>
+                <span th:each="day : ${#numbers.sequence(yearMonth.lengthOfMonth(), 1, -1)}">
+                    <tbody th:if="!${paymentProxy.getPaymentsForDay(day).isEmpty()}">
+                        <tr class="bg-secondary">
+                            <td th:text="${day} + ' ' + ${yearMonth.getMonth()}" colspan="6" class="date-row"></td>
+                        </tr>
+                        <tr th:each="payment, iStat : ${paymentProxy.getPaymentsForDay(day)}">
+                            <td th:text="${iStat.count}"></td>
+                            <td>
+                                <a th:href="'payment?category=' + ${payment.category}" th:text="${payment.category}"></a>
+                            </td>
+                            <td th:text="${payment.subcategory}"></td>
+                            <td th:text="${#numbers.formatDecimal(payment.amount, 1, 2, 'POINT')} + ' zł'"></td>
+                            <!-- <td th:text="${#temporals.format(payment.date, 'dd-MM-YY')}"></td> -->
+                            <td><button th:id="${payment.id}" class="remove-buttons btn btn-outline-danger">USUN</button></td>
+                        </tr>
+                    </tbody>
+                </span>
+        </table>
+    </div>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-package com.budget.bugetapp;
+package com.budget.budgetapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

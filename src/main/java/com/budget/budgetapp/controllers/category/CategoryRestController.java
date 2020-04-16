@@ -12,16 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/v1")
 @CrossOrigin
-@RequestMapping("/api")
-public class CategoryController {
+public class CategoryRestController {
 
     @Autowired
     private CategoryService categoryService;
 
     @GetMapping("/category")
     public List<CategoryDoc> getCategories() {
-        return categoryService.getAllCategories();
+        List<CategoryDoc> categoryList = categoryService.getAllCategories();
+        return categoryList;
     }
 
 }
