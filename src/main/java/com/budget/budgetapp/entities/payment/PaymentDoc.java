@@ -18,6 +18,7 @@ public class PaymentDoc {
 
     private String category;
     private String subcategory;
+    private String adderUser;
     private double amount;
 
     @JsonFormat(pattern = "yyyy/MM/dd")

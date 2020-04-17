@@ -1,5 +1,6 @@
 package com.budget.budgetapp.controllers.payment;
 
+import java.security.Principal;
 import java.util.List;
 
 import com.budget.budgetapp.entities.payment.PaymentDoc;
@@ -33,8 +34,8 @@ public class PaymentRestController {
     }
 
     @PostMapping("/payment")
-    public PaymentDoc createNewPayment(@RequestBody PaymentDoc payment) {
-        System.out.println(payment);
+    public PaymentDoc createNewPayment(@RequestBody PaymentDoc payment, Principal principal) {
+        payment.setAdderUser(principal.getName());
         paymentService.createNewPayment(payment);
         return payment;
     }

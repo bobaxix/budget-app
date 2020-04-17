@@ -92,8 +92,8 @@
                 <th scope="col">Id</th>
                 <th scope="col">Kategoria</th>
                 <th scope="col">Podkategoria</th>
+                <th scope="col">Kto dodał?</th>
                 <th scope="col">Kwota</th>
-                <!-- <th>Data</th> -->
                 <th></th>
             </thead>
                 <span th:each="day : ${#numbers.sequence(yearMonth.lengthOfMonth(), 1, -1)}">
@@ -111,13 +111,13 @@
                                 <a th:href="@{'/payment?year=' + ${yearMonth.getYear()} + '&month=' + ${yearMonth.getMonthValue()} + 
                                         '&subcategory=' + ${payment.subcategory}}" th:text="${payment.subcategory}"></a>
                             </td>
+                            <td th:text="${payment.getAdderUser()}"></td>
                             <td th:text="${#numbers.formatDecimal(payment.amount, 1, 2, 'POINT')} + ' zł'"></td>
-                            <!-- <td th:text="${#temporals.format(payment.date, 'dd-MM-YY')}"></td> -->
                             <td><button th:id="${payment.id}" class="remove-buttons btn btn-sm btn-outline-danger">
                                 <i class="icon-remove"></i></button></td>
                         </tr>
                         <tr class="bg-info">
-                            <td colspan="3" class="date-row">Łącznie: </td>
+                            <td colspan="4" class="date-row">Łącznie: </td>
                             <td th:text="${#numbers.formatDecimal(daySummary.get(day), 1, 2, 'POINT')} + ' zł'" colspan="2" class="date-row"></td>
                         </tr>
                     </tbody>
