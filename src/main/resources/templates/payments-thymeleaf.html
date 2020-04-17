@@ -9,6 +9,8 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
         crossorigin="anonymous">
 
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous" defer>
@@ -42,18 +44,21 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{~/payment}">STRONA GŁÓWNA</a>
+                        <a class="nav-link" th:href="@{~/payment}">
+                            <i class="icon-home"></i> STRONA GŁÓWNA</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{~/payment/add}">DODAJ WPIS</a>
+                        <a class="nav-link" th:href="@{~/payment/add}">
+                            <i class="icon-plus-sign-alt"></i> DODAJ WPIS</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" type="button" data-toggle="modal" data-target="#search-modal">
-                            SZUKAJ
+                            <i class="icon-search"></i> SZUKAJ
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{~/payment/summary}">PODSUMOWANIE</a>
+                        <a class="nav-link" th:href="@{~/payment/summary}">
+                            <i class="icon-briefcase"></i> PODSUMOWANIE</a>
                     </li>
                 </ul>
             </div>
@@ -87,7 +92,8 @@
                             </td>
                             <td th:text="${#numbers.formatDecimal(payment.amount, 1, 2, 'POINT')} + ' zł'"></td>
                             <!-- <td th:text="${#temporals.format(payment.date, 'dd-MM-YY')}"></td> -->
-                            <td><button th:id="${payment.id}" class="remove-buttons btn btn-outline-danger">USUN</button></td>
+                            <td><button th:id="${payment.id}" class="remove-buttons btn btn-sm btn-outline-danger">
+                                <i class="icon-remove"></i></button></td>
                         </tr>
                         <tr class="bg-info">
                             <td colspan="3" class="date-row">Łącznie: </td>
