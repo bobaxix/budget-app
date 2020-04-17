@@ -60,6 +60,16 @@
                         <a class="nav-link" th:href="@{~/payment/summary}">
                             <i class="icon-briefcase"></i> PODSUMOWANIE</a>
                     </li>
+
+                    <li sec:authorize="hasRole('ADMIN')">
+                        <a class="nav-link" th:href="@{~/admin}"><i class="icon-gear"></i> ADMIN</a>
+                    </li>        
+                    
+                    <li>
+                        <a class="nav-link" th:href="@{~/logout}">
+                            <i class="icon-signout"></i> WYLOGUJ</a>
+                    </li>
+
                 </ul>
             </div>
         </nav>

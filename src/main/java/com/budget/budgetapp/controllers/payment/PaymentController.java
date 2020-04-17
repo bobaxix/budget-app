@@ -33,6 +33,11 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
+    @PostMapping("/payment")
+    public String getPm() {
+        return "dummy";
+    }
+
     @GetMapping("/payment")
     public String getPaymentThymeleafView(@RequestParam(required = false) Integer year,
                                           @RequestParam(required = false) Integer month,
