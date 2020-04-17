@@ -29,6 +29,10 @@ public class PolishYearMonth {
         return polishMonth;
     }
 
+    public int getMonthValue() {
+        return yearMonth.getMonthValue();
+    }
+
     public LocalDate atDay(int dayOfMonth) {
         return yearMonth.atDay(dayOfMonth);
     }
@@ -44,5 +48,15 @@ public class PolishYearMonth {
 
     public int getYear() {
         return yearMonth.getYear();
+    }
+
+    public PolishYearMonth previousMonth() {
+        YearMonth prevMonth = yearMonth.minusMonths(1);
+        return new PolishYearMonth(prevMonth);
+    }
+
+    public PolishYearMonth nextMonth() {
+        YearMonth nextMonth = yearMonth.plusMonths(1);
+        return new PolishYearMonth(nextMonth);
     }
 }

@@ -23,21 +23,35 @@
             font-weight: bold;
         }
 
+        .th-2 {
+            width: 50%;
+        }
+
     </style>
 
 </head>
 <body>
     <span th:insert="payments-thymeleaf::navbar"></span>
+
     <div class="container p-2">
+
+        <div class="d-flex py-2">
+            <a th:href="@{'/payment/summary?year=' + ${yearMonth.previousMonth().getYear()} + 
+                '&month=' + ${yearMonth.previousMonth().getMonthValue()}}">Poprzedni miesiąc</a>
+
+            <a class="ml-auto" th:href="@{'/payment/summary?year=' + ${yearMonth.nextMonth().getYear()} + 
+                '&month=' + ${yearMonth.nextMonth().getMonthValue()}}">Następny miesiąc</a>
+        </div>
+
         <div class="p-10">
             <table class="table table-success">
                 <thead>
-                    <th>Okres</th>
-                    <th>Łączna kwota</th>
+                    <th class="th-2" scope="col">Okres</th>
+                    <th class="th-2" scope="col">Łączna kwota</th>
                 </thead>
                 <tbody>
                     <tr>
-                        <td th:text="${date.getMonth()} + ' ' + ${date.getYear()}"></td>
+                        <td th:text="${yearMonth.getMonth()} + ' ' + ${yearMonth.getYear()}"></td>
                         <td th:text="${sumOfPaymentsInDate} + ' zł'"></td>
                     </tr>
                 </tbody>
@@ -49,8 +63,8 @@
             </div>
             <table class="table table-striped table-sm">
                 <thead class="thead-dark">
-                    <th>Podkategoria</th>
-                    <th>Łączna kwota</th>
+                    <th class="th-2">Podkategoria</th>
+                    <th class="th-2">Łączna kwota</th>
                 </thead>
                 <tbody>
                     <span th:each = "subcat: ${cat.value}">

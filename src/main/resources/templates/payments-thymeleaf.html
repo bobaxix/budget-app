@@ -78,12 +78,21 @@
     <span th:insert="modal::search-modal"></span>
 
     <div class="container p-55">
+
+        <div class="d-flex">
+            <a th:href="@{'/payment?year=' + ${yearMonth.previousMonth().getYear()} + 
+                '&month=' + ${yearMonth.previousMonth().getMonthValue()}}">Poprzedni miesiąc</a>
+
+            <a class="ml-auto" th:href="@{'/payment?year=' + ${yearMonth.nextMonth().getYear()} + 
+                '&month=' + ${yearMonth.nextMonth().getMonthValue()}}">Następny miesiąc</a>
+        </div>
+
         <table class="table table-striped">
             <thead class="thead-dark">
-                <th>Id</th>
-                <th>Kategoria</th>
-                <th>Podkategoria</th>
-                <th>Kwota</th>
+                <th scope="col">Id</th>
+                <th scope="col">Kategoria</th>
+                <th scope="col">Podkategoria</th>
+                <th scope="col">Kwota</th>
                 <!-- <th>Data</th> -->
                 <th></th>
             </thead>
@@ -93,12 +102,14 @@
                             <td th:text="${day} + ' ' + ${yearMonth.getMonth()}" colspan="6" class="date-row"></td>
                         </tr>
                         <tr th:each="payment, iStat : ${paymentProxy.getPaymentsForDay(day)}">
-                            <td th:text="${iStat.count}"></td>
+                            <th scope="row" th:text="${iStat.count}"></td>
                             <td>
-                                <a th:href="'payment?category=' + ${payment.category}" th:text="${payment.category}"></a>
+                                <a th:href="@{'/payment?year=' + ${yearMonth.getYear()} + '&month=' + ${yearMonth.getMonthValue()} + 
+                                    '&category=' + ${payment.category}}" th:text="${payment.category}"></a>
                             </td>
                             <td>
-                                <a th:href="'payment?subcategory=' + ${payment.subcategory}" th:text="${payment.subcategory}"></a>
+                                <a th:href="@{'/payment?year=' + ${yearMonth.getYear()} + '&month=' + ${yearMonth.getMonthValue()} + 
+                                        '&subcategory=' + ${payment.subcategory}}" th:text="${payment.subcategory}"></a>
                             </td>
                             <td th:text="${#numbers.formatDecimal(payment.amount, 1, 2, 'POINT')} + ' zł'"></td>
                             <!-- <td th:text="${#temporals.format(payment.date, 'dd-MM-YY')}"></td> -->
