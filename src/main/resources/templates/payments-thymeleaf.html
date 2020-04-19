@@ -52,6 +52,11 @@
                             <i class="icon-plus-sign-alt"></i> DODAJ WPIS</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" th:href="@{~/payment/plan}">
+                            PLANUJ
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" type="button" data-toggle="modal" data-target="#search-modal">
                             <i class="icon-search"></i> SZUKAJ
                         </a>
@@ -102,7 +107,7 @@
                             <td th:text="${day} + ' ' + ${yearMonth.getMonth()}" colspan="6" class="date-row"></td>
                         </tr>
                         <tr th:each="payment, iStat : ${paymentProxy.getPaymentsForDay(day)}">
-                            <th scope="row" th:text="${iStat.count}"></td>
+                            <th class="id" scope="row" th:text="${iStat.count}"></td>
                             <td>
                                 <a th:href="@{'/payment?year=' + ${yearMonth.getYear()} + '&month=' + ${yearMonth.getMonthValue()} + 
                                     '&category=' + ${payment.category}}" th:text="${payment.category}"></a>
@@ -112,13 +117,13 @@
                                         '&subcategory=' + ${payment.subcategory}}" th:text="${payment.subcategory}"></a>
                             </td>
                             <td th:text="${payment.getAdderUser()}"></td>
-                            <td th:text="${#numbers.formatDecimal(payment.amount, 1, 2, 'POINT')} + ' zł'"></td>
+                            <td class="money" th:text="${#numbers.formatDecimal(payment.amount, 1, 2, 'POINT')} + ' zł'"></td>
                             <td><button th:id="${payment.id}" class="remove-buttons btn btn-sm btn-outline-danger">
                                 <i class="icon-remove"></i></button></td>
                         </tr>
                         <tr class="bg-info">
                             <td colspan="4" class="date-row">Łącznie: </td>
-                            <td th:text="${#numbers.formatDecimal(daySummary.get(day), 1, 2, 'POINT')} + ' zł'" colspan="2" class="date-row"></td>
+                            <td class="money" name="summary" th:text="${#numbers.formatDecimal(daySummary.get(day), 1, 2, 'POINT')} + ' zł'" colspan="2"></td>
                         </tr>
                     </tbody>
                 </span>
