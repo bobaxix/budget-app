@@ -1,31 +1,21 @@
 package com.budget.budgetapp.controllers.payment;
 
-import java.io.InputStreamReader;
-import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.List;
-import java.util.Map;
 
 import com.budget.budgetapp.beans.PaymentSummarizer;
 import com.budget.budgetapp.beans.PaymentSummaryResult;
 import com.budget.budgetapp.beans.PolishYearMonth;
-import com.budget.budgetapp.entities.category.CategoryDoc;
 import com.budget.budgetapp.entities.payment.PaymentDoc;
 import com.budget.budgetapp.entities.payment.PaymentProxy;
-import com.budget.budgetapp.services.category.CategoryService;
 import com.budget.budgetapp.services.payment.PaymentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class PaymentController {

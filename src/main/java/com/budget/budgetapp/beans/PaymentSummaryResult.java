@@ -1,6 +1,5 @@
 package com.budget.budgetapp.beans;
 
-import java.util.List;
 import java.util.Map;
 
 import lombok.Getter;

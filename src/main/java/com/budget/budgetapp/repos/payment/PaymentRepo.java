@@ -1,7 +1,6 @@
 package com.budget.budgetapp.repos.payment;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.List;
 
 import com.budget.budgetapp.entities.payment.PaymentDoc;

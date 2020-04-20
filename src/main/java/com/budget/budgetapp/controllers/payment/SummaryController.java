@@ -1,26 +1,12 @@
 package com.budget.budgetapp.controllers.payment;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Map.Entry;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
-import com.budget.budgetapp.beans.PaymentSummarizer;
-import com.budget.budgetapp.beans.PaymentSummaryResult;
 import com.budget.budgetapp.beans.PolishYearMonth;
 import com.budget.budgetapp.entities.category.CategoryDoc;
 import com.budget.budgetapp.entities.payment.PaymentDoc;
-import com.budget.budgetapp.entities.payment.PaymentSum;
 import com.budget.budgetapp.entities.payment.PlannedPayment;
-import com.budget.budgetapp.payment.Category;
-import com.budget.budgetapp.payment.Payment;
-import com.budget.budgetapp.payment.Subcategory;
-import com.budget.budgetapp.payment.Transaction;
-import com.budget.budgetapp.payment.TransactionNode;
+import com.budget.budgetapp.payment.TransactionManager;
 import com.budget.budgetapp.services.category.CategoryService;
 import com.budget.budgetapp.services.payment.PaymentService;
 import com.budget.budgetapp.services.payment.PlannedPaymentService;
@@ -54,30 +40,18 @@ public class SummaryController {
             PolishYearMonth.now() : PolishYearMonth.of(year, month); 
         
         List<PaymentDoc> paymentList = paymentService.getForYearMonth(date);
+        List<CategoryDoc> categoryList = categoryService.getAllCategories();
+        List<PlannedPayment> plannedPaymentList = plannedPaymentService.getForYearMonth(date);
 
-        TransactionNode transactionManager = plannedPaymentService.getForYearMonth(date);        
-
-        paymentList.forEach(el -> {
-
-            String category = el.getCategory();
-            String subcategory = el.getCategory();
-
-            Transaction t = transactionManager.getNode(el.getCategory());
-            t = t.getNode(el.getSubcategory());
-
-            t.addNode(new Payment(el.getAmount()));
-        });
-
-        Map<String, Double> categoryDiff = transactionManager.getNodes()
-                                                .stream()
-                                                .collect(Collectors.toMap(
-                                                    Transaction::getName, Transaction::getMoneyDiff));
-
+        TransactionManager transactionManager = new TransactionManager(categoryList);       
+        transactionManager.addPayment(paymentList);
+        transactionManager.addPlannedPayment(plannedPaymentList);
+        
+                
         theModel.addAttribute("yearMonth", date);
         theModel.addAttribute("transactionManager", transactionManager);
-        theModel.addAttribute("categoryDiff", categoryDiff);
-
-        theModel.addAttribute("globalDiff", transactionManager.getMoneyDiff());
+        theModel.addAttribute("categoryDiff", transactionManager.getCategoryDiff());
+        theModel.addAttribute("globalDiff", transactionManager.getGlobalDiff());
 
         return "summary";
 

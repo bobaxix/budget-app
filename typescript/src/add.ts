@@ -26,7 +26,7 @@ class CategoryController {
     private amountTextor: HTMLInputElement
     private submitInput: HTMLInputElement
 
-    private amountRegex: RegExp = new RegExp(/^[1-9]\d*$|^[1-9]\d*\.\d{1,2}$/)
+    private amountRegex: RegExp = new RegExp(/^[1-9]\d*$|^[1-9]\d*\.\d{1,2}$|0\.\d{1,2}/)
 
     calendar = new Calendar()
 
