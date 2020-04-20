@@ -1,15 +1,29 @@
 package com.budget.budgetapp.controllers.payment;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map.Entry;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import com.budget.budgetapp.beans.PaymentSummarizer;
 import com.budget.budgetapp.beans.PaymentSummaryResult;
 import com.budget.budgetapp.beans.PolishYearMonth;
 import com.budget.budgetapp.entities.category.CategoryDoc;
 import com.budget.budgetapp.entities.payment.PaymentDoc;
+import com.budget.budgetapp.entities.payment.PaymentSum;
+import com.budget.budgetapp.entities.payment.PlannedPayment;
+import com.budget.budgetapp.payment.Category;
+import com.budget.budgetapp.payment.Payment;
+import com.budget.budgetapp.payment.Subcategory;
+import com.budget.budgetapp.payment.Transaction;
+import com.budget.budgetapp.payment.TransactionNode;
 import com.budget.budgetapp.services.category.CategoryService;
 import com.budget.budgetapp.services.payment.PaymentService;
+import com.budget.budgetapp.services.payment.PlannedPaymentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +42,9 @@ public class SummaryController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private PlannedPaymentService plannedPaymentService;
+
     @GetMapping(value = "/summary") 
     public String getSummaryForMonth(@RequestParam(required = false) Integer year,
                                      @RequestParam(required = false) Integer month,
@@ -37,22 +54,30 @@ public class SummaryController {
             PolishYearMonth.now() : PolishYearMonth.of(year, month); 
         
         List<PaymentDoc> paymentList = paymentService.getForYearMonth(date);
-        List<CategoryDoc> categoryList = categoryService.getAllCategories();
 
-        PaymentSummarizer paymentSummarizer = new PaymentSummarizer.Builder(paymentList)
-                                                        .setCategoryList(categoryList)
-                                                        .build();
+        TransactionNode transactionManager = plannedPaymentService.getForYearMonth(date);        
 
-        paymentSummarizer.doSummaryForSubcategories();
-        paymentSummarizer.doSummaryForCategories();
-        paymentSummarizer.doSummaryForGlobal();
+        paymentList.forEach(el -> {
 
-        PaymentSummaryResult paymentSummary = paymentSummarizer.getResult();
+            String category = el.getCategory();
+            String subcategory = el.getCategory();
 
-        theModel.addAttribute("paymentMap", paymentSummary.getSummaryPerSubcategory());
-        theModel.addAttribute("paymentSum", paymentSummary.getSummaryPerCategory());
-        theModel.addAttribute("sumOfPaymentsInDate", paymentSummary.getSummaryPerPeriod());
+            Transaction t = transactionManager.getNode(el.getCategory());
+            t = t.getNode(el.getSubcategory());
+
+            t.addNode(new Payment(el.getAmount()));
+        });
+
+        Map<String, Double> categoryDiff = transactionManager.getNodes()
+                                                .stream()
+                                                .collect(Collectors.toMap(
+                                                    Transaction::getName, Transaction::getMoneyDiff));
+
         theModel.addAttribute("yearMonth", date);
+        theModel.addAttribute("transactionManager", transactionManager);
+        theModel.addAttribute("categoryDiff", categoryDiff);
+
+        theModel.addAttribute("globalDiff", transactionManager.getMoneyDiff());
 
         return "summary";
 
